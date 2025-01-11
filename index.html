@@ -61,45 +61,12 @@
     <div class="container">
         <h1>Pregunta a la IA</h1>
         <textarea id="question" rows="4" placeholder="Escribe tu pregunta aquí..."></textarea>
-        <button id="askButton" onclick="preguntarIA()">Preguntar</button>
+        <button id="askButton">Preguntar</button>
         <div id="response">Esperando tu pregunta...</div>
     </div>
 
-    <script>
-        // Función para hacer la solicitud a la API de la IA
-        async function preguntarIA() {
-            const pregunta = document.getElementById('question').value;
-            if (!pregunta) {
-                alert('Por favor, escribe una pregunta.');
-                return;
-            }
-
-            const apiKey = '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';  // Tu API key
-            const apiUrl = 'https://api.groqcloud.com/v1/completions';
-            
-            // Llamada a la API
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        model: 'Llama-3.1-70B',
-                        prompt: pregunta,
-                        max_tokens: 200
-                    })
-                });
-
-                const data = await response.json();
-                document.getElementById('response').innerText = data.choices[0].text || 'No se recibió respuesta';
-            } catch (error) {
-                console.error('Error al hacer la solicitud:', error);
-                document.getElementById('response').innerText = 'Hubo un error al obtener la respuesta.';
-            }
-        }
-    </script>
+    <!-- Vincula el archivo JavaScript aquí -->
+    <script src="index.js"></script>
     
 </body>
 </html>
