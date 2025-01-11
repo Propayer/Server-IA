@@ -10,7 +10,7 @@ export async function preguntarIA(pregunta, callback) {
 
         // Solicitud al modelo
         const response = await groq.completions.create({
-            model: "Llama-3.1-70B",
+            model: "llama-3.3-70b-versatile",
             prompt: pregunta,
             max_tokens: 200,
         });
