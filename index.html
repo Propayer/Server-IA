@@ -57,7 +57,6 @@
     </style>
 </head>
 <body>
-
     <div class="container">
         <h1>Pregunta a la IA</h1>
         <textarea id="question" rows="4" placeholder="Escribe tu pregunta aquí..."></textarea>
@@ -65,6 +64,25 @@
         <div id="response">Esperando tu pregunta...</div>
     </div>
 
-    <script src="src/index.js"></script>
+    <script type="module">
+        import { preguntarIA } from './src/index.js';
+
+        const askButton = document.getElementById('askButton');
+        const questionInput = document.getElementById('question');
+        const responseDiv = document.getElementById('response');
+
+        askButton.addEventListener('click', () => {
+            const question = questionInput.value;
+            responseDiv.innerText = "Procesando tu pregunta...";
+            
+            preguntarIA(question, (error, response) => {
+                if (error) {
+                    responseDiv.innerText = `Error: ${error}`;
+                } else {
+                    responseDiv.innerText = response;
+                }
+            });
+        });
+    </script>
 </body>
 </html>
