@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interfaz de IA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            min-height: 60px;
+        }
+        #question {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #askButton {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #askButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Pregunta a la IA</h1>
+        <textarea id="question" rows="4" placeholder="Escribe tu pregunta aquí..."></textarea>
+        <button id="askButton" onclick="preguntarIA()">Preguntar</button>
+        <div id="response">Esperando tu pregunta...</div>
+    </div>
+
+    <script>
+        // Función para hacer la solicitud a la API de la IA
+        async function preguntarIA() {
+            const pregunta = document.getElementById('question').value;
+            if (!pregunta) {
+                alert('Por favor, escribe una pregunta.');
+                return;
+            }
+
+            const apiKey = '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';  // Tu API key
+            const apiUrl = 'https://api.groqcloud.com/v1/completions';
+            
+            // Llamada a la API
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: 'Llama-3.1-70B',
+                        prompt: pregunta,
+                        max_tokens: 200
+                    })
+                });
+
+                const data = await response.json();
+                document.getElementById('response').innerText = data.choices[0].text || 'No se recibió respuesta';
+            } catch (error) {
+                console.error('Error al hacer la solicitud:', error);
+                document.getElementById('response').innerText = 'Hubo un error al obtener la respuesta.';
+            }
+        }
+    </script>
+    
+</body>
+</html>
