@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('Pregunta enviada:', pregunta);
         
         if (!pregunta) {
-            document.getElementById('response').innerText = 'Por favor, escribe una pregunta.';
+            mostrarLog('Por favor, escribe una pregunta.');
             console.log('No se escribió ninguna pregunta');
             return;
         }
@@ -21,7 +21,7 @@ async function preguntarIA(pregunta) {
     const apiKey = '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';  // Tu API key
     const apiUrl = 'https://api.groqcloud.com/v1/completions';
 
-    console.log('Iniciando solicitud a la API con la pregunta:', pregunta);
+    mostrarLog('Iniciando solicitud a la API con la pregunta: ' + pregunta);
     
     try {
         const response = await fetch(apiUrl, {
@@ -37,24 +37,30 @@ async function preguntarIA(pregunta) {
             })
         });
 
-        console.log('Respuesta de la API recibida:', response);
+        mostrarLog('Respuesta de la API recibida: ' + response.status);
         
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}. No se pudo conectar con la API.`);
         }
 
         const data = await response.json();
-        console.log('Datos de la API:', data);
+        mostrarLog('Datos de la API: ' + JSON.stringify(data));
         
         // Mostrar la respuesta de la IA
         if (data && data.choices && data.choices.length > 0) {
-            document.getElementById('response').innerText = data.choices[0].text || 'No se recibió respuesta.';
+            mostrarLog('Respuesta de la IA: ' + data.choices[0].text || 'No se recibió respuesta.');
         } else {
-            document.getElementById('response').innerText = 'La IA no devolvió una respuesta válida.';
+            mostrarLog('La IA no devolvió una respuesta válida.');
         }
     } catch (error) {
         // Mostrar error si ocurre alguno
         console.error('Error al hacer la solicitud:', error);
-        document.getElementById('response').innerText = `Hubo un error al obtener la respuesta: ${error.message}`;
+        mostrarLog(`Hubo un error al obtener la respuesta: ${error.message}`);
     }
+}
+
+// Función para mostrar los logs en el recuadro de la respuesta
+function mostrarLog(mensaje) {
+    const responseDiv = document.getElementById('response');
+    responseDiv.innerHTML = mensaje;  // Actualiza el contenido del recuadro con el log
 }
