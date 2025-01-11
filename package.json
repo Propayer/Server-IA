@@ -1,0 +1,14 @@
+{
+  "name": "server IA",
+  "version": "1.0.0",
+  "description": "Proyecto que integra la API de GroqCloud",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "author": "progamer",
+  "license": "ISC"
+}
