@@ -1,9 +1,9 @@
 // Esperamos a que el documento esté listo
 document.addEventListener('DOMContentLoaded', function () {
-    // Referencia al botón de enviar
-    const sendButton = document.getElementById('sendButton');
+    // Referencia al botón de preguntar
+    const askButton = document.getElementById('askButton');
     
-    sendButton.addEventListener('click', function () {
+    askButton.addEventListener('click', function () {
         const pregunta = document.getElementById('question').value;
         if (!pregunta) {
             document.getElementById('response').innerText = 'Por favor, escribe una pregunta.';
@@ -25,7 +25,7 @@ async function preguntarIA(pregunta) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                model: 'Llama-3.1-70B',  // Modelo GroqCloud
+                model: 'Llama-3.1-70B',
                 prompt: pregunta,
                 max_tokens: 200
             })
