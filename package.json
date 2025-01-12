@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Proyecto que integra la API de GroqCloud",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "start": "main/src/index.js",
     "install-dependencies": "npm install"
