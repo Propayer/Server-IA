@@ -57,6 +57,7 @@
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1>Pregunta a la IA</h1>
         <textarea id="question" rows="4" placeholder="Escribe tu pregunta aquí..."></textarea>
@@ -64,25 +65,36 @@
         <div id="response">Esperando tu pregunta...</div>
     </div>
 
-    <script type="module">
-        import { preguntarIA } from './src/index.js';
+    <script>
+        // Función para enviar la pregunta al backend
+        async function preguntarIA() {
+            const pregunta = document.getElementById('question').value;
+            const respuestaDiv = document.getElementById('response');
+            if (!pregunta) {
+                respuestaDiv.innerText = 'Por favor, escribe una pregunta.';
+                return;
+            }
 
-        const askButton = document.getElementById('askButton');
-        const questionInput = document.getElementById('question');
-        const responseDiv = document.getElementById('response');
+            respuestaDiv.innerText = 'Procesando...';
 
-        askButton.addEventListener('click', () => {
-            const question = questionInput.value;
-            responseDiv.innerText = "Procesando tu pregunta...";
-            
-            preguntarIA(question, (error, response) => {
-                if (error) {
-                    responseDiv.innerText = `Error: ${error}`;
-                } else {
-                    responseDiv.innerText = response;
-                }
-            });
-        });
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: pregunta }),
+                });
+
+                const data = await response.json();
+                respuestaDiv.innerText = data.response || 'No se recibió respuesta de la IA.';
+            } catch (error) {
+                respuestaDiv.innerText = `Error al procesar la solicitud: ${error.message}`;
+            }
+        }
+
+        // Añade evento al botón
+        document.getElementById('askButton').addEventListener('click', preguntarIA);
     </script>
 </body>
 </html>
