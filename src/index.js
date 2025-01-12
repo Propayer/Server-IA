@@ -1,24 +1,48 @@
+import readline from "readline";
 import Groq from "groq-sdk";
 
-// Configuración de la clave API
+// Inicializa el cliente con tu clave API
 const groq = new Groq({ apiKey: "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" });
 
-// Función para consultar la IA
-export async function preguntarIA(pregunta, callback) {
-    try {
-        if (!pregunta) throw new Error("La pregunta no puede estar vacía.");
+async function main() {
+  console.log("Bienvenido a la conversación con la IA. Escribe 'salir' para finalizar.\n");
 
-        // Solicitud al modelo
-        const response = await groq.completions.create({
-            model: "llama-3.3-70b-versatile",
-            prompt: pregunta,
-            max_tokens: 200,
-        });
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
 
-        // Enviar el resultado al callback
-        callback(null, response.choices[0]?.text || "Sin respuesta.");
-    } catch (error) {
-        // Manejo de errores
-        callback(error.message, null);
+  const promptHistory = []; // Historial de la conversación
+
+  rl.on("line", async (input) => {
+    if (input.toLowerCase() === "salir") {
+      console.log("¡Adiós!");
+      rl.close();
+      return;
     }
+
+    try {
+      // Agrega la pregunta del usuario al historial
+      promptHistory.push({ role: "user", content: input });
+
+      const response = await groq.chat.completions.create({
+        messages: promptHistory,
+        model: "llama-3.3-70b-versatile",
+      });
+
+      const iaResponse = response.choices[0]?.message?.content || "No se recibió respuesta de la IA.";
+      console.log(`IA: ${iaResponse}`);
+
+      // Agrega la respuesta de la IA al historial
+      promptHistory.push({ role: "assistant", content: iaResponse });
+    } catch (error) {
+      console.error("Error al interactuar con la IA:", error);
+    }
+
+    console.log("\nTú:");
+  });
 }
+
+main().catch((error) => {
+  console.error("Hubo un error al iniciar el programa:", error);
+});
