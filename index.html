@@ -71,7 +71,7 @@
 
         // Función para hacer la solicitud a la API de la IA
         async function preguntarIA() {
-            const pregunta = document.getElementById('question').value;
+            const pregunta = document.getElementById('question').value.trim(); // Obtener pregunta y eliminar espacios innecesarios
             if (!pregunta) {
                 alert('Por favor, escribe una pregunta.');
                 return;
