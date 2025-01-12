@@ -1,101 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interfaz de IA</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        .container {
-            width: 80%;
-            max-width: 600px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        #response {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e9ecef;
-            border-radius: 5px;
-            min-height: 60px;
-        }
-        #question {
-            width: 100%;
-            padding: 10px;
-            margin-top: 20px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        #askButton, #testButton {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            margin-top: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        #askButton:hover, #testButton:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interacción con la IA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 80%;
+      max-width: 600px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    #response {
+      margin-top: 20px;
+      padding: 10px;
+      background-color: #e9ecef;
+      border-radius: 5px;
+      min-height: 60px;
+    }
+    #question {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    #askButton {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #askButton:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="container">
-        <h1>Pregunta a la IA</h1>
-        <textarea id="question" rows="4" placeholder="Escribe tu pregunta aquí..."></textarea>
-        <button id="askButton">Preguntar</button>
-        <button id="testButton">Test</button>
-        <div id="response">Esperando tu pregunta...</div>
-    </div>
+  <div class="container">
+    <h1>Pregunta a la IA</h1>
+    <textarea id="question" rows="4" placeholder="Escribe tu pregunta aquí..."></textarea>
+    <button id="askButton">Preguntar</button>
+    <div id="response">Esperando tu pregunta...</div>
+  </div>
 
-    <!-- Importar el script de la IA -->
-    <script type="module">
-        import { preguntarIA } from './src/index.js';  // Asegúrate de que la ruta sea correcta
-
-        // Función para hacer la solicitud a la API de la IA
-        async function preguntarIAHandler() {
-            const pregunta = document.getElementById('question').value.trim(); // Obtener pregunta y eliminar espacios innecesarios
-            if (!pregunta) {
-                alert('Por favor, escribe una pregunta.');
-                return;
-            }
-
-            try {
-                const respuesta = await preguntarIA(pregunta);
-                document.getElementById('response').innerText = respuesta;
-            } catch (error) {
-                console.error('Error al hacer la solicitud:', error);
-                document.getElementById('response').innerText = 'Hubo un error al obtener la respuesta.';
-            }
-        }
-
-        // Función para probar el funcionamiento
-        function testFunction() {
-            document.getElementById('response').innerText = "Si lees esto funciona";
-        }
-
-        // Agregar eventos a los botones
-        document.getElementById('askButton').addEventListener('click', preguntarIAHandler);
-        document.getElementById('testButton').addEventListener('click', testFunction);
-    </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
