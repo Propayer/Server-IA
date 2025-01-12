@@ -1,17 +1,15 @@
 {
-  "name": "server-ia",
+  "name": "IA-Server",
   "version": "1.0.0",
-  "description": "Proyecto que integra la API de GroqCloud",
-  "main": "src/index.js",
-  "type": "module",
-  "scripts": {
-    "start": "main/src/index.js",
-    "install-dependencies": "npm install"
-  },
+  "description": "Servidor para interactuar con la IA",
+  "main": "index.js",
   "dependencies": {
-    "groq-sdk": "^1.0.0",
-    "node-fetch": "^2.6.1"
+    "groq-sdk": "^1.0.0"
   },
-  "author": "progamer",
-  "license": "ISC"
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "16.x"
+  }
 }
