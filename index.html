@@ -65,36 +65,39 @@
         <div id="response">Esperando tu pregunta...</div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/groq-sdk"></script>
     <script>
-        // Función para enviar la pregunta al backend
+        const apiKey = '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';  // Tu API key
+
+        // Función para hacer la solicitud a la API de la IA
         async function preguntarIA() {
             const pregunta = document.getElementById('question').value;
-            const respuestaDiv = document.getElementById('response');
             if (!pregunta) {
-                respuestaDiv.innerText = 'Por favor, escribe una pregunta.';
+                alert('Por favor, escribe una pregunta.');
                 return;
             }
 
-            respuestaDiv.innerText = 'Procesando...';
+            const groq = new Groq({ apiKey });
 
             try {
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ message: pregunta }),
+                const chatCompletion = await groq.chat.completions.create({
+                    messages: [
+                        { role: "user", content: pregunta }
+                    ],
+                    model: "llama-3.3-70b-versatile"
                 });
 
-                const data = await response.json();
-                respuestaDiv.innerText = data.response || 'No se recibió respuesta de la IA.';
+                const respuesta = chatCompletion.choices[0]?.message?.content || 'No se recibió respuesta';
+                document.getElementById('response').innerText = respuesta;
             } catch (error) {
-                respuestaDiv.innerText = `Error al procesar la solicitud: ${error.message}`;
+                console.error('Error al hacer la solicitud:', error);
+                document.getElementById('response').innerText = 'Hubo un error al obtener la respuesta.';
             }
         }
 
-        // Añade evento al botón
+        // Agregar evento al botón
         document.getElementById('askButton').addEventListener('click', preguntarIA);
     </script>
+
 </body>
 </html>
