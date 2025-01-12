@@ -66,29 +66,20 @@
         <div id="response">Esperando tu pregunta...</div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/groq-sdk"></script>
-    <script>
-        const apiKey = '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';  // Tu API key
+    <!-- Importar el script de la IA -->
+    <script type="module">
+        import { preguntarIA } from './src/index.js';  // Asegúrate de que la ruta sea correcta
 
         // Función para hacer la solicitud a la API de la IA
-        async function preguntarIA() {
+        async function preguntarIAHandler() {
             const pregunta = document.getElementById('question').value.trim(); // Obtener pregunta y eliminar espacios innecesarios
             if (!pregunta) {
                 alert('Por favor, escribe una pregunta.');
                 return;
             }
 
-            const groq = new Groq({ apiKey });
-
             try {
-                const chatCompletion = await groq.chat.completions.create({
-                    messages: [
-                        { role: "user", content: pregunta }
-                    ],
-                    model: "llama-3.3-70b-versatile"
-                });
-
-                const respuesta = chatCompletion.choices[0]?.message?.content || 'No se recibió respuesta';
+                const respuesta = await preguntarIA(pregunta);
                 document.getElementById('response').innerText = respuesta;
             } catch (error) {
                 console.error('Error al hacer la solicitud:', error);
@@ -102,7 +93,7 @@
         }
 
         // Agregar eventos a los botones
-        document.getElementById('askButton').addEventListener('click', preguntarIA);
+        document.getElementById('askButton').addEventListener('click', preguntarIAHandler);
         document.getElementById('testButton').addEventListener('click', testFunction);
     </script>
 
