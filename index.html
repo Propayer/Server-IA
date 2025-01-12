@@ -40,7 +40,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-        #askButton {
+        #askButton, #testButton {
             width: 100%;
             padding: 10px;
             background-color: #007bff;
@@ -51,7 +51,7 @@
             font-size: 16px;
             cursor: pointer;
         }
-        #askButton:hover {
+        #askButton:hover, #testButton:hover {
             background-color: #0056b3;
         }
     </style>
@@ -62,6 +62,7 @@
         <h1>Pregunta a la IA</h1>
         <textarea id="question" rows="4" placeholder="Escribe tu pregunta aquí..."></textarea>
         <button id="askButton">Preguntar</button>
+        <button id="testButton">Test</button>
         <div id="response">Esperando tu pregunta...</div>
     </div>
 
@@ -95,8 +96,14 @@
             }
         }
 
-        // Agregar evento al botón
+        // Función para probar el funcionamiento
+        function testFunction() {
+            document.getElementById('response').innerText = "Si lees esto funciona";
+        }
+
+        // Agregar eventos a los botones
         document.getElementById('askButton').addEventListener('click', preguntarIA);
+        document.getElementById('testButton').addEventListener('click', testFunction);
     </script>
 
 </body>
